@@ -1,23 +1,62 @@
-import logo from './logo.svg';
+import React, {useState} from 'react'
 import './App.css';
+import TodoList from './components/TodoList';
+import TodoItem from './components/TodoItem';
+import NewList from './components/NewList';
+
 
 function App() {
-  return (
+  
+  const [todos, setTodos] = useState([
+    {
+      body: "Create todo list",
+      completed: false
+    },
+    {
+      body: "Laundry",
+      completed: true
+    },
+    {
+      body: "Buy more garlic",
+      completed: false
+    },
+  ])
+  
+const updateTodo = (idx)=> {
+
+  const copyTodos = [...todos];
+
+  copyTodos[idx].completed = !copyTodos[idx].completed;// if its true make it false if its false make it true 
+  //basically above lets check and uncheck  ur stuff
+
+
+  setTodos(copyTodos);
+
+  // setTodos(todos.filter((todo,i)=> i !== deletedIdx ? true : false))
+}
+
+
+const deleteTodo = (deletedIdx) => {
+  const copyTodos = todos.filter((todo, idx) => {
+    if(idx!== deletedIdx){
+      return true; 
+    }
+      return false;
+  });
+    setTodos(copyTodos);
+}
+  
+const createTodo = (todo) => {
+  setTodos([...todos, todo]);
+}
+
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      hello humans !!!!!
+      <NewList createTodo={createTodo}/>
+      <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
+      
     </div>
   );
 }
